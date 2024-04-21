@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LabirintoCSharp
 {
@@ -11,6 +12,10 @@ namespace LabirintoCSharp
 
         static void mostrarLabirinto(char[,] array, int l, int c)
         {
+
+            Console.Write("\n Labirinto do Ratão");
+            Console.Write("\n");
+
             for (int i = 0; i < l; i++)
             {
                 Console.WriteLine();
@@ -46,23 +51,106 @@ namespace LabirintoCSharp
 
             int x = random.Next(limit);
             int y = random.Next(limit);
+
+            if(meuLab[x, y] =='*')
+            {
+
+                x = random.Next(limit);
+                y = random.Next(limit);
+
+            }
+
             meuLab[x, y] = 'Q';
+
+            
+
         }
 
         static void buscarQueijo(char[,] meuLab, int i, int j)
-        {
-            Stack<int> minhaPilha = new Stack<int>();
+ {
+        Stack<int> minhaPilha = new Stack<int>();
+            int a, b;    
+
+            
 
 
             do
-            {
-                meuLab[i, j] = 'v';
-                if (meuLab[i, j + 1] == '.')
-                {
-                    // empilhar posicao atual
-                    // minhaPilha.Push();// i e j
+     {
+         meuLab[i, j] = 'R';
+
+         if (meuLab[i, j + 1] == '.') //move direita
+         {
+
+                    a = i;
+                    b = j;
+                    minhaPilha.Push(i);
+                    minhaPilha.Push(j);
+                    
+                    
+                    
                     j++;
+
+         }else if (meuLab[i+1, j] == '.') //move baixo
+                {
+
+                    a = i;
+                    b = j;
+                    minhaPilha.Push(i);
+                    minhaPilha.Push(j);
+
+                    
+
+                    i++;
+
                 }
+
+         else if (meuLab[i, j-1] == '.') //move esquerda
+                {
+
+                    a = i;
+                    b = j;
+                    minhaPilha.Push(i);
+                    minhaPilha.Push(j);
+
+                    
+
+                    j--;
+
+                }
+
+         else if (meuLab[i - 1, j] == '.') //move cima
+                {
+
+                    a = i;
+                    b = j;
+                    minhaPilha.Push(i);
+                    minhaPilha.Push(j);
+
+                    
+
+                    i--;
+
+                }
+
+         
+
+         else if (minhaPilha.Count() > 0)
+                {
+                    a = i;
+                    b = j;
+                    meuLab[i, j] = 'x';
+                    i = minhaPilha.Pop();
+                    j = minhaPilha.Pop();
+                    
+
+                }else{
+
+                    Console.Write("ERRO");
+                    
+                    break;
+                }
+
+                
                 //else if baixo i+1
                 // else if esquerda j-1
                 // else if cima i-1
@@ -72,10 +160,19 @@ namespace LabirintoCSharp
                 // return false
 
 
-                System.Threading.Thread.Sleep(200);
-                Console.Clear();
-                mostrarLabirinto(meuLab, limit, limit);
-            } while (meuLab[i, j] != 'Q');
+         System.Threading.Thread.Sleep(200);
+         Console.Clear();
+         mostrarLabirinto(meuLab, limit, limit);
+         
+
+     } while (meuLab[i, j] != 'Q');
+
+            
+
+                Console.Write("ACHO");
+
+            
+
             // encontrou
         }
 
@@ -86,8 +183,10 @@ namespace LabirintoCSharp
         {
 
             char[,] labirinto = new char[limit, limit];
+            
             criaLabirinto(labirinto);
             mostrarLabirinto(labirinto, limit, limit);
+           
             buscarQueijo(labirinto, 1, 1);
             Console.ReadKey();
 
