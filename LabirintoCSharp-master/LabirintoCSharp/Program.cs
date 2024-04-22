@@ -7,7 +7,7 @@ namespace LabirintoCSharp
     internal class Program
     {
 
-        private const int limit = 15;
+        private const int limit = 10;
 
 
         static void mostrarLabirinto(char[,] array, int l, int c)
@@ -69,7 +69,8 @@ namespace LabirintoCSharp
         static void buscarQueijo(char[,] meuLab, int i, int j)
  {
         Stack<int> minhaPilha = new Stack<int>();
-            int a, b;    
+            int x_Antes;
+            int y_Depois;
 
             
 
@@ -80,75 +81,55 @@ namespace LabirintoCSharp
 
          if (meuLab[i, j + 1] == '.') //move direita
          {
-
-                    a = i;
-                    b = j;
+  
                     minhaPilha.Push(i);
-                    minhaPilha.Push(j);
-                    
-                    
-                    
+                    minhaPilha.Push(j);              
                     j++;
-
-         }else if (meuLab[i+1, j] == '.') //move baixo
-                {
-
-                    a = i;
-                    b = j;
+         }
+         else if (meuLab[i+1, j] == '.') //move baixo
+                { 
                     minhaPilha.Push(i);
                     minhaPilha.Push(j);
-
-                    
-
                     i++;
-
                 }
 
          else if (meuLab[i, j-1] == '.') //move esquerda
                 {
-
-                    a = i;
-                    b = j;
                     minhaPilha.Push(i);
                     minhaPilha.Push(j);
-
-                    
-
                     j--;
-
                 }
 
          else if (meuLab[i - 1, j] == '.') //move cima
                 {
-
-                    a = i;
-                    b = j;
                     minhaPilha.Push(i);
-                    minhaPilha.Push(j);
-
-                    
-
+                    minhaPilha.Push(j); 
                     i--;
-
                 }
 
          
 
          else if (minhaPilha.Count() > 0)
                 {
-                    a = i;
-                    b = j;
-                    meuLab[i, j] = 'x';
+                    
                     i = minhaPilha.Pop();
                     j = minhaPilha.Pop();
+                    Console.Write("contando...");
                     
+                }
 
-                }else{
-
-                    Console.Write("ERRO");
-                    
+         else if (meuLab[i, j] == 'Q')
+                {
+                    meuLab[i, j] = 'R';
+                    minhaPilha.Clear();
+                    Console.Write("Ratão achou seu queijo! :)");
                     break;
                 }
+
+         else{
+                    Console.Write("PEGARAM O RATÃO :(");
+                    break;
+              }
 
                 
                 //else if baixo i+1
@@ -165,13 +146,7 @@ namespace LabirintoCSharp
          mostrarLabirinto(meuLab, limit, limit);
          
 
-     } while (meuLab[i, j] != 'Q');
-
-            
-
-                Console.Write("ACHO");
-
-            
+     } while (meuLab[i, j] != 'Q');   
 
             // encontrou
         }
